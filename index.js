@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import { jwt } from "jsonwebtoken";
-import userRoutes from "./backend/routes/userRoutes.js";
+const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const userRoutes = require("./backend/routes/userRoutes.js");
 
 const app = express();
 const port = 3000;

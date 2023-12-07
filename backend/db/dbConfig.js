@@ -1,4 +1,4 @@
-import sqlite3 from "sqlite3";
+const sqlite3 = require("sqlite3");
 
 let db = new sqlite3.Database("./database.db");
 
@@ -13,4 +13,4 @@ db.serialize(() => {
   `);
 });
 
-export default db;
+module.exports = db;
