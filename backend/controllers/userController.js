@@ -23,4 +23,31 @@ const createUser = async (username, email) => {
   });
 };
 
-module.exports = { createUser };
+const loginUser = async (usernameOrEmail, password) => {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT * FROM users WHERE username = ? OR email = ?`,
+      { usernameOrEmail, password },
+      async (err, user) => {
+        if (err) {
+          reject("Login error");
+        }
+        if (!user) {
+          reject("User not found");
+        } else {
+          const isPasswordMatching = await bcrypt.compare(
+            password,
+            user.hashed_password
+          );
+          if (isPasswordMatching) {
+            resolve({ userId: user.id, username: user.username });
+          } else {
+            reject("Invalid password");
+          }
+        }
+      }
+    );
+  });
+};
+
+module.exports = { createUser, loginUser };
