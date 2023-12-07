@@ -1,6 +1,7 @@
-import { express } from "express";
+import express from "express";
 import cors from "cors";
-import { sqlite3 } from "sqlite3";
+import { jwt } from "jsonwebtoken";
+import userRoutes from "./backend/routes/userRoutes.js";
 
 const app = express();
 const port = 3000;
@@ -15,14 +16,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let db = new sqlite3.Database("./database.db", (error) => {
-  //database with errorhandling
-});
-
 //endpoint for creating users
-app.post("/register", (req, res) => {
-  // CREATE USER
-});
+app.use("/register", userRoutes);
 
 // login user endpoint
 app.post("/login", (req, res) => {
@@ -45,7 +40,7 @@ app.get("/posts/:id", (req, res) => {
 });
 
 // create a blogpost
-app.post("/", (req, res) => {
+app.post("/posts", (req, res) => {
   // blogposts
 });
 
