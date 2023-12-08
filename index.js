@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("frontend"));
+app.use(express.static("frontend-for-eksamensoppgave"));
 
 //endpoint for creating users handled in userController and userRoutes
 app.use("/register", userRoutes);
