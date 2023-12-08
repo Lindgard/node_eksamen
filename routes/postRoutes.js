@@ -9,6 +9,7 @@ router.get("/posts", async (req, res) => {
   try {
     const blogPosts = await getPostsByUserId(userId);
     res.status(200).json({ blogPosts });
+    res.send("testing");
   } catch (error) {
     res.status(500).json({ message: "Error fetching blog posts", error });
   }
