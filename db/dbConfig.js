@@ -18,7 +18,7 @@ db.serialize(() => {
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     user_id INTEGER NOT NULL,
-    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    datePosted DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
   )
   `);

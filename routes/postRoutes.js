@@ -1,17 +1,29 @@
 const express = require("express");
-const { getPostsByUserId } = require("../controllers/postController.js");
+const {
+  showPostsByUser,
+  createPost,
+} = require("../controllers/postController.js");
+const authUser = require("../authentication/authUser.js");
 
 const router = express.Router();
 
 router.get("/posts", async (req, res) => {
-  const userId = req.user.id;
-
   try {
-    const blogPosts = await getPostsByUserId(userId);
-    res.status(200).json({ blogPosts });
-    res.send("testing");
+    await showPostsByUser(req, res);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching blog posts", error });
+    res.status(500).json({ message: "Error getting posts by user", error });
+  }
+});
+
+router.post("/posts", authUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { title, content } = req.body;
+
+    const result = await createPost(userId, title, content);
+    res.status(201).json({ message: result });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating post", error });
   }
 });
 
