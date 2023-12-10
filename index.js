@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/userRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
+const authUser = require("./authentication/authUser.js");
 
 const app = express();
 const port = 3000;
@@ -31,7 +31,7 @@ app.post("/logout", (req, res) => {
 
 /* get all blogposts including username from users 
 handled in postController and postRoutes */
-app.use("/posts", postRoutes);
+app.use("/posts", authUser(secretKey), postRoutes);
 
 // get post by ID
 app.get("/posts/:id", (req, res) => {

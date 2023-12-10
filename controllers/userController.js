@@ -1,5 +1,6 @@
 const db = require("../db/dbConfig.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const createUser = async (username, email) => {
   return new Promise((resolve, reject) => {
@@ -23,11 +24,11 @@ const createUser = async (username, email) => {
   });
 };
 
-const loginUser = async (usernameOrEmail, password) => {
+const loginUser = async (usernameOrEmail, password, secretKey) => {
   return new Promise((resolve, reject) => {
     db.get(
       `SELECT * FROM users WHERE username = ? OR email = ?`,
-      { usernameOrEmail, password },
+      [usernameOrEmail, password],
       async (err, user) => {
         if (err) {
           reject("Login error");
@@ -40,7 +41,15 @@ const loginUser = async (usernameOrEmail, password) => {
             user.hashed_password
           );
           if (isPasswordMatching) {
-            resolve({ userId: user.id, username: user.username });
+            const token = jwt.sign(
+              {
+                userId: user.id,
+                username: user.username,
+              },
+              secretKey,
+              { expiresIn: "2h" }
+            );
+            resolve({ token });
           } else {
             reject("Invalid password");
           }
