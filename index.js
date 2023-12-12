@@ -25,34 +25,18 @@ app.use("/register", userRoutes);
 app.use("/login", userRoutes);
 
 // logout endpoint
-app.post("/logout", (req, res) => {
-  //logout user
-});
 
 /* get all blogposts including username from users 
 handled in postController and postRoutes */
 app.use("/posts", authUser(secretKey), postRoutes);
 
 // get post by ID
-app.get("/posts/:id", (req, res) => {
-  // get specific post
-});
 
 // create a blogpost
-app.post("/posts", (req, res) => {
-  // blogposts
-});
 
 // update a blogpost
-app.put("/posts/:id", (req, res) => {
-  /* updating blogposts by swapping out entire old post
-   with new */
-});
 
 // delete endpoint
-app.delete("/posts/:id", (req, res) => {
-  // delete blogpost
-});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

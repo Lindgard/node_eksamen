@@ -27,7 +27,7 @@ const createPost = async (userId, title, content) => {
   return new Promise((resolve, reject) => {
     const currentDate = new Date().toISOString();
     db.run(
-      "INSTERT INTO posts (title, content, user_id, datePosted) VALUES (?, ?, ?, ?)",
+      "INSTERT INTO posts (title, content, user_id, date_posted) VALUES (?, ?, ?, ?)",
       [title, content, userId, currentDate],
       (err) => {
         if (err) {
@@ -40,4 +40,4 @@ const createPost = async (userId, title, content) => {
   });
 };
 
-module.exports = { showPostsByUser };
+module.exports = { showPostsByUser, createPost };
