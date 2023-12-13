@@ -14,6 +14,9 @@ const getPostsByUserId = async (userId) => {
 const showPostsByUser = async (req, res) => {
   try {
     const userId = req.user.id;
+    const { title, content } = req.body;
+
+    await createPost(userId, title, content); //use createPost to add a new blogpost to show
     const userPosts = await getPostsByUserId(userId);
     res.status(200).json({ userPosts });
   } catch (error) {
@@ -40,4 +43,39 @@ const createPost = async (userId, title, content) => {
   });
 };
 
-module.exports = { showPostsByUser, createPost };
+const updatePost = async (postId, title, content) => {
+  return new Promise((resolve, reject) => {
+    const currentDate = new Date().toISOString();
+    db.run(
+      "UPDATE posts SET title = ?, content = ?, date_updated = ? WHERE id = ?",
+      [title, content, currentDate, postId],
+      (err) => {
+        if (err) {
+          reject("Error updating post");
+        } else {
+          resolve("Successfully updated post");
+        }
+      }
+    );
+  });
+};
+
+const deletePost = async (postId) => {
+  return new Promise((resolve, reject) => {
+    db.run("DELETE FROM posts WHERE id = ?", [postId], (err) => {
+      if (err) {
+        reject("Error deleting post");
+      } else {
+        resolve("Post deleted successfully");
+      }
+    });
+  });
+};
+
+module.exports = {
+  showPostsByUser,
+  createPost,
+  getPostsByUserId,
+  deletePost,
+  updatePost,
+};

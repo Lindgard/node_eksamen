@@ -12,13 +12,15 @@ db.serialize(() => {
     dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
   db.run(`
   CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     user_id INTEGER NOT NULL,
-    datePosted DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_posted DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
   )
   `);
