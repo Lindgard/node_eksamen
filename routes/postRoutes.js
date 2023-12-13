@@ -3,6 +3,7 @@ const {
   showPostsByUser,
   createPost,
   deletePost,
+  updatePost,
 } = require("../controllers/postController.js");
 const { authUser } = require("../authentication/authUser.js");
 
@@ -25,6 +26,18 @@ router.post("/posts", authUser, async (req, res) => {
     res.status(201).json({ message: result });
   } catch (error) {
     res.status(500).json({ message: "Error creating post", error });
+  }
+});
+
+router.put("/posts/:id", authUser, async (req, res) => {
+  const postId = req.params.id;
+  const { title, content } = req.body;
+
+  try {
+    const result = await updatePost(postId, title, content);
+    res.status(200).json({ message: result });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating post", error });
   }
 });
 

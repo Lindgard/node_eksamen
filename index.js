@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("frontend-for-eksamensoppgave"));
 
 //endpoint for creating users handled in userController and userRoutes
-app.use("/register", userRoutes);
+app.post("/register", userRoutes);
 
 // login user endpoint handled in userController and userRoutes
 app.post("/login", userRoutes);
@@ -29,15 +29,16 @@ app.get("/logout", userRoutes);
 
 /* get all blogposts including username from users 
 handled in postController and postRoutes */
-app.use("/posts", authUser, postRoutes);
+app.get("/posts", authUser, postRoutes);
 
 // get post by ID
 app.get("/posts/:id", postRoutes);
 
-// create a blogpost
+// create a blogpost logic placed in postController and postRoutes
 app.post("/posts", postRoutes);
 
 // update a blogpost
+app.put("/posts/:id", authUser, postRoutes);
 
 // delete endpoint
 app.delete("/posts/:id", postRoutes);

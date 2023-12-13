@@ -18,11 +18,11 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", loginWithAuth, async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const { usernameOrEmail, password, secretKey } = req.body;
+    const { usernameOrEmail, password } = req.body;
 
-    const userToken = await loginUser(usernameOrEmail, password, secretKey);
+    const userToken = await loginUser(usernameOrEmail, password);
     res.status(200).json({ token: userToken });
   } catch (error) {
     res.status(401).json({ message: "Login failed", error });

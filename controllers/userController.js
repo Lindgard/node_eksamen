@@ -6,7 +6,7 @@ const { authUser, secretKey } = require("../authentication/authUser.js");
 //array for tokens to be used in logout
 const blacklistedTokens = [];
 
-const createUser = async (username, email) => {
+const createUser = async (username, email, password) => {
   return new Promise((resolve, reject) => {
     const currentDate = new Date().toISOString();
     bcrypt.hash(password, 10, (err, hashedPassword) => {
