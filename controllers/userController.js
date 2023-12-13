@@ -1,6 +1,10 @@
 const db = require("../db/dbConfig.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { authUser, secretKey } = require("../authentication/authUser.js");
+
+//array for tokens to be used in logout
+const blacklistedTokens = [];
 
 const createUser = async (username, email) => {
   return new Promise((resolve, reject) => {
@@ -59,4 +63,30 @@ const loginUser = async (usernameOrEmail, password, secretKey) => {
   });
 };
 
-module.exports = { createUser, loginUser };
+const logoutUser = async (req, res) => {
+  const userId = req.user.userId; //access user data from authUser.js
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
+
+  try {
+    if (blacklistedTokens.includes(token)) {
+      return res.status(401).json({ message: "Token already invalidated" });
+    }
+    blacklistedTokens.push(token);
+    return res
+      .status(200)
+      .json({ message: `Logout successful for user ${userId}` });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+module.exports = {
+  createUser,
+  loginUser,
+  logoutUser,
+  loginWithAuth: authUser(secretKey), //making use of the authUser middleware I made
+};
