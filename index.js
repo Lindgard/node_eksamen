@@ -16,32 +16,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("frontend-for-eksamensoppgave"));
+// app.use(express.static(path.join(__dirname, "frontend-for-eksamensoppgave")));
 
-//endpoint for creating users handled in userController and userRoutes
-app.post("/register", userRoutes);
+app.use("/", userRoutes);
+app.use("/posts", authUser, postRoutes);
 
-// login user endpoint handled in userController and userRoutes
-app.post("/login", userRoutes);
-
-// logout endpoint
-app.get("/logout", userRoutes);
-
-/* get all blogposts including username from users 
-handled in postController and postRoutes */
-app.get("/posts", authUser, postRoutes);
-
-// get post by ID
-app.get("/posts/:id", postRoutes);
-
-// create a blogpost logic placed in postController and postRoutes
-app.post("/posts", postRoutes);
-
-// update a blogpost
-app.put("/posts/:id", authUser, postRoutes);
-
-// delete endpoint
-app.delete("/posts/:id", postRoutes);
+// handler for root path
+app.get("/", (req, res) => {
+  res.send("Testing");
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

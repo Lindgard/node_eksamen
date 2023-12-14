@@ -13,19 +13,21 @@ const getPostsByUserId = async (userId) => {
 
 const showPostsByUser = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.id; // retrieve user Id from request object
     const { title, content } = req.body;
 
-    await createPost(userId, title, content); //use createPost to add a new blogpost to show
-    const userPosts = await getPostsByUserId(userId);
-    res.status(200).json({ userPosts });
+    await createPost(userId, title, content); //add a new blog post for user
+    const userPosts = await getPostsByUserId(userId); // fetch posts made by user
+    res.status(200).json({ userPosts }); // respond with user's posts
   } catch (error) {
+    // error handling for fetching posts
     res
       .status(500)
       .json({ message: "Error fetching posts made by the user", error });
   }
 };
 
+// function for creating new posts
 const createPost = async (userId, title, content) => {
   return new Promise((resolve, reject) => {
     const currentDate = new Date().toISOString();
@@ -43,6 +45,7 @@ const createPost = async (userId, title, content) => {
   });
 };
 
+// function to update posts by ID
 const updatePost = async (postId, title, content) => {
   return new Promise((resolve, reject) => {
     const currentDate = new Date().toISOString();
@@ -60,6 +63,7 @@ const updatePost = async (postId, title, content) => {
   });
 };
 
+// function to delete posts based on ID
 const deletePost = async (postId) => {
   return new Promise((resolve, reject) => {
     db.run("DELETE FROM posts WHERE id = ?", [postId], (err) => {
