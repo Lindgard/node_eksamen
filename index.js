@@ -21,10 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", userRoutes);
 app.use("/posts", authUser, postRoutes);
 
-// handler for root path
-app.get("/", (req, res) => {
-  res.send("Testing");
-});
+// // handler for root path
+// app.get("/", (req, res) => {
+//   res.send("Testing");
+// });
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
