@@ -16,17 +16,18 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// need the express.static to make use of the frontend-folder
-//app.use(express.static("frontend-for-eksamensoppgave"));
 
 /* using the root path for userRoutes because the routes in that file
 has the paths needed, adding the /posts to the postRoutes */
 app.use("/", userRoutes);
 app.use("/posts", authUser, postRoutes);
 
+// need the express.static to make use of the frontend-folder for testing
+app.use(express.static("frontend-for-eksamensoppgave"));
+
 // handler for root path
 app.get("/", (req, res) => {
-  res.send("Testing");
+  res.sendFile(__dirname + "/frontend-for-eksamensoppgave/index.html");
 });
 
 app.listen(port, () => {
