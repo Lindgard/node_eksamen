@@ -28,6 +28,12 @@ router.post("/login", async (req, res) => {
 
     // attempt to log in using provided credentials
     const userToken = await loginUser(usernameOrEmail, password);
+
+    /*   
+    res.cookie("token", userToken, {
+      httpOnly: true,
+    }); */
+
     res.status(200).json({ token: userToken });
   } catch (error) {
     // respond with error if login is unsuccessful
