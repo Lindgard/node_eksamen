@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const userRoutes = require("./authentication/routes/userRoutes.js");
-const postRoutes = require("./authentication/routes/postRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
+const postRoutes = require("./routes/postRoutes.js");
 const { authUser } = require("./authentication/authUser.js");
 
 const app = express();
@@ -24,10 +24,10 @@ has the paths needed, adding the /posts to the postRoutes */
 app.use("/", userRoutes);
 app.use("/posts", authUser, postRoutes);
 
-// // handler for root path
-// app.get("/", (req, res) => {
-//   res.send("Testing");
-// });
+// handler for root path
+app.get("/", (req, res) => {
+  res.send("Testing");
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
