@@ -16,7 +16,7 @@ const createUser = async (username, email, password) => {
       db.run(
         "INSERT INTO users (username, email, hashed_password, dateCreated) VALUES (?, ?, ?, ?)",
         [username, email, hashedPassword, currentDate],
-        (err) => {
+        function (err) {
           if (err) {
             reject(err.message);
           } else {
@@ -32,7 +32,7 @@ const loginUser = async (usernameOrEmail, password, secretKey) => {
   return new Promise((resolve, reject) => {
     db.get(
       `SELECT * FROM users WHERE username = ? OR email = ?`,
-      [usernameOrEmail, password],
+      [usernameOrEmail, usernameOrEmail],
       async (err, user) => {
         if (err) {
           reject("Login error");
